@@ -1,4 +1,7 @@
 'use strict'
+/**
+ * Реализация через класс Restaurant
+ */
 
 const { Restaurant } = require('./restaurant');
 

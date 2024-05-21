@@ -1,4 +1,7 @@
 'use strict'
+/**
+ * Демонстрационный файл
+ */
 
 const { MusicCollection } = require('./musicCollection.js');
 

@@ -1,4 +1,7 @@
 'use strict'
+/**
+ * Простая реализация
+ */
 
 const specializations = new Map().set('Виктор', new Set()).set('Ольга', new Set()).set('Дмитрий', new Set());
 const orders = new Map();
