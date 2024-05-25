@@ -3,7 +3,8 @@
 import { initialData } from "./initialData.js";
 
 const containerEl = document.querySelector('.container');
-let lastId = initialData.length;
+let currentData = null;
+let lastId = null;
 
 /**
  * Создать карточку товара
@@ -44,6 +45,7 @@ const redraw = (product) => {
     entryFormEl.classList.add('entry_form');
 
     const inputEl = document.createElement('textarea');
+    inputEl.setAttribute('resize', 'none');
     inputEl.classList.add('input');
     inputEl.setAttribute('type', 'text');
     entryFormEl.appendChild(inputEl);
@@ -58,13 +60,22 @@ const redraw = (product) => {
             const newId = saveReview(product, inputEl.value);
             reviewsBox.appendChild(addReview(newId, inputEl.value));
             inputEl.classList.toggle('error');
+            errorBox.innerHTML = "";
         } catch (error) {
+            errorBox.innerHTML = "";
             inputEl.classList.add('error');
-            alert(error.message);
+            const errorMessageEl = document.createElement('p');
+            errorMessageEl.classList.add('error__message');
+            errorMessageEl.innerText = error.message;
+            errorBox.appendChild(errorMessageEl);
         }
     });
 
     boxEl.appendChild(entryFormEl);
+
+    const errorBox = document.createElement('div');
+    errorBox.classList.add('error__box');
+    boxEl.appendChild(errorBox);
 
     const reviewsBox = document.createElement('div');
     reviewsBox.classList.add('review__box');
@@ -97,26 +108,33 @@ const addReview = (id, text) => {
 const saveReview = (product, text) => {
     checkReview(text);
     const newId = ++lastId;
-    const index = initialData.indexOf(product);
-    initialData[index].reviews.push({id: `${newId}`, text: text});
-    console.log(initialData);
+    const index = currentData.indexOf(product);
+    currentData[index].reviews.push({ id: `${newId}`, text: text });
+    localStorage.setItem('reviews', JSON.stringify(currentData));
     return newId;
 }
 
+/**
+ * Проверка нового отзыва на допустимость длины
+ * @param {*} text новый отзыв
+ * @throws в случае недопустимой длины выбрасывается исключение
+ */
 const checkReview = (text) => {
     if (text.length > 500 || text.length < 50) throw new Error('Длина должна быть не менее 50 и не более 500 символов');
 }
 
 /**
- * Отрисовка шлавной страницы
+ * Отрисовка главной страницы
  */
 const drawIndex = () => {
-    initialData.forEach(product => containerEl.appendChild(createCard(product)));
+    currentData.forEach(product => containerEl.appendChild(createCard(product)));
 }
 
 /**
  * Стартовая загрузка страницы
  */
 document.addEventListener('DOMContentLoaded', function (e) {
+    currentData = JSON.parse(localStorage.getItem('reviews')) || initialData;
+    lastId = currentData.length;
     drawIndex();
 });

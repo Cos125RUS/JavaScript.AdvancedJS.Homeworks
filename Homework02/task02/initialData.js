@@ -34,5 +34,4 @@ const initialData = [
     },
 ];
 
-// module.exports = { initialData };
-export {initialData};
+export { initialData };

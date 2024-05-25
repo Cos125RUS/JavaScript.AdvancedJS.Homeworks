@@ -41,7 +41,7 @@
     margin-bottom: 15px;
     padding: 3px;
     min-width: 80vw;
-    min-height: 100px;
+    min-height: 80px;
     border-radius: 11px 11px 11px 11px;
 
 }
@@ -50,7 +50,7 @@
     background-color: rgb(78, 78, 100);
     color: aliceblue;
     padding: 5px 0;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     border-radius: 11px 11px 11px 11px;
     border: 0;
 
@@ -72,8 +72,25 @@
     padding: 5px 10px;
     background: wheat;
     border-radius: 5px 5px 5px 5px;
+    max-width: 80vw;
 }
 
 .error {
     border: 1px solid #e20909;
+
+    &__box {
+        min-height: 30px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__message {
+        color: #e20909;
+        font-style: bold;
+        font-size: large;
+    }
 }
+
+.hidden { display: none;}
