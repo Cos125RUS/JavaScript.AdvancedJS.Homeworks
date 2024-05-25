@@ -22,7 +22,7 @@ const createCard = (product) => {
     elementBox.appendChild(titleEl);
 
     const imgEl = document.createElement('img');
-    elementBox.classList.add('product__img');
+    imgEl.classList.add('product__img');
     imgEl.src = `./img/${product.product}.jpg`;
     elementBox.appendChild(imgEl);
 

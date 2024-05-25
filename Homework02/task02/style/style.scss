@@ -24,6 +24,7 @@
     &__box {
         display: flex;
         flex-direction: column;
+        align-items: center;
         margin-bottom: 30px;
         &:hover {
             cursor: pointer;
@@ -38,6 +39,11 @@
 
 .input {
     margin-bottom: 15px;
+    padding: 3px;
+    min-width: 80vw;
+    min-height: 100px;
+    border-radius: 11px 11px 11px 11px;
+
 }
 
 .btn {
