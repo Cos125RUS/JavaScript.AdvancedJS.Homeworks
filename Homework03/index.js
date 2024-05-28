@@ -8,7 +8,13 @@ let containerEl;
  * @returns массив с данными по ключу
  */
 const load = (key) => {
-    return JSON.parse(localStorage.getItem(key)) || [];
+    return new Promise((resolve, reject) => {
+        try {
+            resolve(JSON.parse(localStorage.getItem(key)) || []);
+        } catch (error) {
+            reject(new Error('Could not found ' + key + ' in localStorage'));
+        }
+    });
 }
 
 /**
@@ -36,7 +42,7 @@ const showIndex = (products) => {
         const name = inputEl.value;
         products.push(name);
         save('products', products);
-        save(name, {name: name, reviews: []});
+        save(name, { name: name, reviews: [] });
         productsUl.appendChild(createProduct(name));
         inputEl.value = '';
     });
@@ -70,7 +76,9 @@ const createProduct = (product) => {
     productLink.innerText = product;
     productLink.addEventListener('click', (e) => {
         e.preventDefault();
-        showProduct(load(product));
+        load(product)
+            .then(data => showProduct(data))
+            .catch((error) => console.error(error.message));
     });
     productLi.appendChild(productLink);
     return productLi;
@@ -137,6 +145,7 @@ const createReview = (product, text) => {
  * Стартовая загрузка
  */
 document.addEventListener('DOMContentLoaded', function (e) {
-    const products = load('products');
-    showIndex(products);
+    load('products')
+        .then(data => showIndex(data))
+        .catch(err => console.error(err.message));
 });
